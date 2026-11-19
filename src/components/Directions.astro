@@ -1,0 +1,101 @@
+---
+import { Picture } from "astro:assets";
+import FutureLink from "./FutureLink.astro";
+import { clinic, stops, FUTURE_NOTE } from "../data/clinic";
+import microscope from "../assets/img/microscope.webp";
+---
+<section id="directions" class="directions" data-rec="R-U02,R-U10" aria-labelledby="directions-title">
+  <div class="container">
+    <header class="section-head">
+      <h2 id="directions-title">Напрями й ціни для всієї родини</h2>
+      <p class="section-head__text">П'ять зупинок одного маршруту. На кожній — ціни з прайсу клініки, лікарі й номер, за яким записують.</p>
+    </header>
+
+    <div class="directions__grid">
+      <aside class="spine" aria-label="Зупинки маршруту">
+        <ol class="spine__list" data-spine>
+          {stops.map((s) => (
+            <li class="spine__item">
+              <a class="spine__link" href={`#${s.anchor}`} data-spine-link={s.anchor}>
+                <span class="spine__dot" aria-hidden="true"></span>
+                <span>{s.name}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+        <span class="spine__track" aria-hidden="true"><span class="spine__fill" data-spine-fill></span></span>
+      </aside>
+
+      <div class="stops">
+        {stops.map((s) => (
+          <article id={s.anchor} class:list={["stop", `stop--${s.id}`]} aria-labelledby={`${s.anchor}-title`} data-stop-panel>
+            <details class="stop__fold" open data-fold>
+            <summary class="stop__summary">
+              <span class="stop__head">
+                <span class="stop__dot" aria-hidden="true"></span>
+                <h3 id={`${s.anchor}-title`} class="stop__title">{s.name}</h3>
+              </span>
+              <span class="stop__first"><span class="visually-hidden">{s.heroPrice.label}: </span><span class="nowrap"><span class="num">{s.heroPrice.value}</span>&nbsp;{s.heroPrice.unit}</span></span>
+              <span class="stop__chev" aria-hidden="true"></span>
+            </summary>
+            <div class="stop__body">
+            {s.doctors && <p class="stop__doctors">{s.doctors}</p>}
+
+            {s.id === "implant" ? (
+              <table class="price-table">
+                <caption class="visually-hidden">Ціни: імплантація і коронки</caption>
+                <tbody>
+                  {s.prices.map((p) => (
+                    <tr>
+                      <th scope="row">{p.label}</th>
+                      <td><span class="num">{p.value}</span>&nbsp;{p.unit}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <ul class="prices" role="list">
+                {s.prices.map((p) => (
+                  <li class="price">
+                    <span class="price__value"><span class="num">{p.value}</span>&nbsp;<span class="price__unit">{p.unit}</span></span>
+                    <span class="price__label">{p.label}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            {s.id === "care" && (
+              <figure class="stop__photo">
+                <Picture
+                  src={microscope}
+                  formats={["avif"]} fallbackFormat="webp"
+                  widths={[400, 640, 900]}
+                  sizes="(min-width: 64rem) 30vw, 90vw"
+                  alt="Лікар працює з мікроскопом у кабінеті клініки"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+            )}
+
+            {s.fact && <p class="stop__fact">{s.fact}</p>}
+            {s.note && <p class="stop__note">{s.note}</p>}
+
+            <div class="stop__actions">
+              <a class:list={["btn", s.id === "implant" ? "btn--brand" : "btn--outline"]} href={clinic.tel} data-rec="R-U01">Подзвонити</a>
+              <a class="text-link stop__phone" href={clinic.tel}>{clinic.phone}</a>
+              <FutureLink note={FUTURE_NOTE} class="future">Сторінка напряму</FutureLink>
+            </div>
+            </div>
+            </details>
+          </article>
+        ))}
+
+        <div class="directions__more">
+          <p>Також у клініці: пародонтологія, хірургія (видалення зуба — <span class="nowrap"><span class="num">1150–3300</span>&nbsp;грн</span>) і рентген-діагностика.</p>
+          <FutureLink note={FUTURE_NOTE} class="future">Усі ціни</FutureLink>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

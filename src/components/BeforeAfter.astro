@@ -1,0 +1,37 @@
+---
+// Before/after comparison. Without scripts: two photos side by side. With scripts: one frame,
+// the "before" photo is revealed with clip-path (transform-free, no layout shift), driven by a native
+// range input (arrow keys work) and a "До / Після" switch for phones.
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  before: ImageMetadata;
+  after: ImageMetadata;
+  beforeAlt: string;
+  afterAlt: string;
+  beforeLabel?: string;
+  afterLabel?: string;
+  id: string;
+}
+const { before, after, beforeAlt, afterAlt, beforeLabel = "До", afterLabel = "Після", id } = Astro.props;
+const sizes = "(min-width: 64rem) 58vw, 92vw";
+---
+<div class="ba" data-ba style="--pos: 50%">
+  <div class="ba__frame" style={`aspect-ratio: ${after.width} / ${after.height}`}>
+    <div class="ba__layer ba__layer--after">
+      <Picture src={after} formats={["avif"]} fallbackFormat="webp" widths={[480, 760, 1000]} sizes={sizes} alt={afterAlt} loading="lazy" decoding="async" />
+      <span class="ba__tag ba__tag--after">{afterLabel}</span>
+    </div>
+    <div class="ba__layer ba__layer--before">
+      <Picture src={before} formats={["avif"]} fallbackFormat="webp" widths={[480, 760, 1000]} sizes={sizes} alt={beforeAlt} loading="lazy" decoding="async" />
+      <span class="ba__tag ba__tag--before">{beforeLabel}</span>
+    </div>
+    <span class="ba__handle" aria-hidden="true"></span>
+    <input class="ba__range" type="range" min="0" max="100" value="50" step="1" id={`${id}-range`} aria-label={`Порівняння: ${beforeLabel.toLowerCase()} і ${afterLabel.toLowerCase()}`} data-ba-range />
+  </div>
+  <div class="ba__switch" role="group" aria-label="Показати фото">
+    <button type="button" class="ba__btn" data-ba-show="before" aria-pressed="false">{beforeLabel}</button>
+    <button type="button" class="ba__btn" data-ba-show="after" aria-pressed="false">{afterLabel}</button>
+  </div>
+</div>

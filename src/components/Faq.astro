@@ -1,0 +1,16 @@
+---
+import { faq } from "../data/clinic";
+---
+<section id="faq" class="faq" aria-labelledby="faq-title">
+  <div class="container faq__grid">
+    <h2 id="faq-title" class="faq__title">Питання перед першим візитом</h2>
+    <div class="faq__list">
+      {faq.map((item, i) => (
+        <details class="qa" open={i === 0}>
+          <summary class="qa__q"><h3 class="qa__h">{item.q}</h3><span class="qa__sign" aria-hidden="true"></span></summary>
+          <p class="qa__a">{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

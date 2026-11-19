@@ -1,0 +1,26 @@
+---
+// Small line icons drawn for this site (no icon font, no library). Decorative: the parent link carries the name.
+interface Props { name: "phone" | "pin" | "instagram" | "facebook"; class?: string; size?: number; }
+const { name, class: cls, size = 20 } = Astro.props;
+---
+<svg class:list={["icon", cls]} width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  {name === "phone" && (
+    <path d="M6.6 3.5h2.6l1.5 4.1-2 1.3a11 11 0 0 0 6.4 6.4l1.3-2 4.1 1.5v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2Z" />
+  )}
+  {name === "pin" && (
+    <>
+      <path d="M12 21s-6.5-5.6-6.5-11a6.5 6.5 0 0 1 13 0c0 5.4-6.5 11-6.5 11Z" />
+      <circle cx="12" cy="10" r="2.4" />
+    </>
+  )}
+  {name === "instagram" && (
+    <>
+      <rect x="3.5" y="3.5" width="17" height="17" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.2" cy="6.8" r="0.6" fill="currentColor" />
+    </>
+  )}
+  {name === "facebook" && (
+    <path d="M14.5 8.5h2.3V5h-2.6c-2.5 0-3.7 1.6-3.7 4v2H8v3.4h2.5V21h3.4v-6.6h2.5l.5-3.4h-3V9.6c0-.7.3-1.1 1-1.1Z" />
+  )}
+</svg>

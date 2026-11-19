@@ -1,0 +1,134 @@
+---
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import BeforeAfter from "./BeforeAfter.astro";
+import FutureLink from "./FutureLink.astro";
+import { stops, FUTURE_NOTE, type StopId } from "../data/clinic";
+
+import kids from "../assets/img/case-kids.webp";
+import bracesBefore from "../assets/img/case-braces-before.webp";
+import bracesAfter from "../assets/img/case-braces-after.webp";
+import hygieneBefore from "../assets/img/case-hygiene-before.webp";
+import hygieneAfter from "../assets/img/case-hygiene-after.webp";
+import whiteBefore from "../assets/img/case-whitening-before.webp";
+import whiteAfter from "../assets/img/case-whitening-after.webp";
+import veneersBefore from "../assets/img/case-veneers-before.webp";
+import veneersAfter from "../assets/img/case-veneers-after.webp";
+import implantBefore from "../assets/img/case-implant-before.webp";
+import implantAfter from "../assets/img/case-implant-after.webp";
+
+interface Work {
+  key: string;
+  title: string;
+  text: string;
+  thumb: string;
+  pair?: { before: ImageMetadata; after: ImageMetadata; beforeAlt: string; afterAlt: string; beforeLabel?: string; afterLabel?: string };
+  single?: { src: ImageMetadata; alt: string };
+}
+
+// Photos and captions — client's /cases and homepage cases (C-009). Captions keep the client's wording.
+const works: Record<StopId, Work[]> = {
+  child: [{
+    key: "kids",
+    title: "Дитяча стоматологія",
+    text: "Фото з розділу робіт клініки: зуб дитини до лікування, етап відновлення і результат.",
+    thumb: "Дитина",
+    single: { src: kids, alt: "Дитяча стоматологія: передній зуб до лікування, етап відновлення і результат" },
+  }],
+  ortho: [{
+    key: "braces",
+    title: "Встановлення брекет-системи",
+    text: "Вирівнювання зубів на брекет-системі: прикус під час лікування і після зняття брекетів.",
+    thumb: "Брекети",
+    pair: { before: bracesBefore, after: bracesAfter, beforeAlt: "Зуби з брекет-системою під час лікування", afterAlt: "Рівні зуби після зняття брекет-системи", beforeLabel: "На брекетах", afterLabel: "Після" },
+  }],
+  care: [{
+    key: "hygiene",
+    title: "Професійна гігієна ротової порожнини",
+    text: "Зубний наліт і камінь до гігієни та чисті зуби після процедури.",
+    thumb: "Гігієна",
+    pair: { before: hygieneBefore, after: hygieneAfter, beforeAlt: "Зуби з нальотом до професійної гігієни", afterAlt: "Зуби після професійної гігієни" },
+  }],
+  aesthetic: [
+    {
+      key: "whitening",
+      title: "Відбілювання системою Beyond Ultra 2",
+      text: "Професійне відбілювання для природної білизни зубів без чутливості емалі.",
+      thumb: "Відбілювання",
+      pair: { before: whiteBefore, after: whiteAfter, beforeAlt: "Відбілювання Beyond: зуби до процедури", afterAlt: "Відбілювання Beyond: зуби після процедури" },
+    },
+    {
+      key: "veneers",
+      title: "Відновлення усмішки коронками та вінірами",
+      text: "Відновлення форми, кольору та естетики зубів за допомогою вінірів і коронок.",
+      thumb: "Вініри й коронки",
+      pair: { before: veneersBefore, after: veneersAfter, beforeAlt: "Передні зуби з дефектами до вінірів і коронок", afterAlt: "Передні зуби після вінірів і коронок" },
+    },
+  ],
+  implant: [{
+    key: "allon4",
+    title: "Відновлення усмішки за допомогою імплантації",
+    text: "Встановлення імплантів за методикою All on 4 (Все на 4 імплантах) та через 6 місяців встановлення цирконієвих коронок на титановій балці з опорою на імплантах.",
+    thumb: "All-on-4",
+    pair: { before: implantBefore, after: implantAfter, beforeAlt: "Зуби до імплантації All-on-4", afterAlt: "Усмішка після All-on-4 з цирконієвими коронками на титановій балці" },
+  }],
+};
+---
+<section id="cases" class="cases field-deep" aria-labelledby="cases-title">
+  <div class="container">
+    <header class="section-head section-head--split">
+      <h2 id="cases-title">До і після: роботи наших лікарів</h2>
+      <p class="section-head__text">Реальні клінічні випадки пацієнтів клініки, за тими ж зупинками маршруту.</p>
+    </header>
+
+    <div class="cases__tabs" role="tablist" aria-label="Роботи за напрямами" data-tabs hidden>
+      {stops.map((s, i) => (
+        <button
+          type="button"
+          role="tab"
+          class="tab"
+          id={`tab-${s.id}`}
+          aria-controls={`works-${s.id}`}
+          aria-selected={i === 3 ? "true" : "false"}
+          tabindex={i === 3 ? 0 : -1}
+          data-tab={s.id}
+        >
+          <span class="tab__dot" aria-hidden="true"></span>{s.name}
+        </button>
+      ))}
+    </div>
+
+    <div class="cases__panels">
+      {stops.map((s) => (
+        <div class="works" id={`works-${s.id}`} role="tabpanel" aria-labelledby={`tab-${s.id}`} data-panel={s.id}>
+          <h3 class="works__stop">{s.name}</h3>
+          {works[s.id].map((w, wi) => (
+            <div class="work" data-work={w.key} data-work-index={wi}>
+              <div class="work__media">
+                {w.pair ? (
+                  <BeforeAfter id={w.key} {...w.pair} />
+                ) : w.single ? (
+                  <div class="work__single">
+                    <Picture src={w.single.src} formats={["avif"]} fallbackFormat="webp" widths={[480, 760, 920]} sizes="(min-width: 64rem) 40vw, 92vw" alt={w.single.alt} loading="lazy" decoding="async" />
+                  </div>
+                ) : null}
+              </div>
+              <div class="work__text">
+                <p class="work__title">{w.title}</p>
+                <p class="work__desc">{w.text}</p>
+                {works[s.id].length > 1 && (
+                  <div class="work__switch" role="group" aria-label="Інші роботи напряму" data-work-switch>
+                    {works[s.id].map((o, oi) => (
+                      <button type="button" class="chip" data-show-work={oi} aria-pressed={oi === wi ? "true" : "false"}>{o.thumb}</button>
+                    ))}
+                  </div>
+                )}
+                <FutureLink note={FUTURE_NOTE} class="future future--on-dark">Усі роботи</FutureLink>
+              </div>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

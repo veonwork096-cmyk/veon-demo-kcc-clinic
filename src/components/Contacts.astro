@@ -1,0 +1,62 @@
+---
+import { Picture } from "astro:assets";
+import Icon from "./Icon.astro";
+import { clinic, FORM_NOTE } from "../data/clinic";
+import facade from "../assets/img/facade.webp";
+---
+<section id="contacts" class="contacts" aria-labelledby="contacts-title">
+  <div class="container contacts__grid">
+    <div class="contacts__main">
+      <h2 id="contacts-title">Як нас знайти: Минайська, 23А</h2>
+      <a class="contacts__phone" href={clinic.tel} data-rec="R-U01">{clinic.phone}</a>
+      <p class="contacts__note">{clinic.bookingNote}</p>
+
+      <ul class="contacts__list" role="list">
+        <li>
+          <Icon name="pin" />
+          <span>{clinic.address}</span>
+          <a class="text-link" href={clinic.mapsUrl} target="_blank" rel="noopener">Прокласти маршрут</a>
+        </li>
+        <li>
+          <Icon name="instagram" />
+          <a class="text-link" href={clinic.instagram} target="_blank" rel="noopener">Instagram клініки</a>
+        </li>
+      </ul>
+
+      <form class="booking" aria-labelledby="booking-title" data-rec="R-U08" onsubmit="return false">
+        <h3 id="booking-title" class="booking__title">Запис на консультацію</h3>
+        <div class="booking__fields">
+          <div class="field">
+            <label for="b-name">Ім'я</label>
+            <input id="b-name" type="text" autocomplete="name" />
+          </div>
+          <div class="field">
+            <label for="b-phone">Телефон</label>
+            <input id="b-phone" type="tel" autocomplete="tel" inputmode="tel" />
+          </div>
+          <div class="field field--wide">
+            <label for="b-topic">Напрям</label>
+            <select id="b-topic">
+              <option>Потрібна консультація</option>
+              <option>Дитина</option>
+              <option>Брекети й елайнери</option>
+              <option>Лікування і гігієна</option>
+              <option>Естетика</option>
+              <option>Імплантація і коронки</option>
+            </select>
+          </div>
+        </div>
+        <div class="booking__foot">
+          <span class="future-submit">
+            <button type="submit" class="btn btn--disabled" disabled aria-disabled="true" aria-describedby="booking-note">Записатися</button>
+          </span>
+          <p id="booking-note" class="booking__note">{FORM_NOTE}. Зараз записуємо за телефоном <a class="text-link" href={clinic.tel}>{clinic.phone}</a></p>
+        </div>
+      </form>
+    </div>
+
+    <figure class="contacts__photo">
+      <Picture src={facade} formats={["avif"]} fallbackFormat="webp" widths={[420, 640, 900]} sizes="(min-width: 64rem) 38vw, 92vw" alt="Будівля клініки з вивіскою «Стоматологія» на вулиці Минайській, 23А в Ужгороді" loading="lazy" decoding="async" />
+    </figure>
+  </div>
+</section>

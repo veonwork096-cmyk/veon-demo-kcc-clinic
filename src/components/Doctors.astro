@@ -1,0 +1,83 @@
+---
+import { Picture } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import FutureLink from "./FutureLink.astro";
+import { FUTURE_NOTE } from "../data/clinic";
+
+import bati from "../assets/img/doc-bati.webp";
+import prokopchuk from "../assets/img/doc-prokopchuk.webp";
+import horzov from "../assets/img/doc-horzov.webp";
+import kupriienko from "../assets/img/doc-kupriienko.webp";
+import tsyfra from "../assets/img/doc-tsyfra.webp";
+import maliar from "../assets/img/doc-maliar.webp";
+import boichuk from "../assets/img/doc-boichuk.webp";
+import petskar from "../assets/img/doc-petskar.webp";
+import yaremchuk from "../assets/img/doc-yaremchuk.webp";
+import rusyn from "../assets/img/doc-rusyn.webp";
+
+interface Doctor { name: string; role: string; photo: ImageMetadata; }
+interface Group { stop: string; anchor: string; doctors: Doctor[]; }
+
+// C-020 (names and roles), photos from the client's #team block.
+const groups: Group[] = [
+  { stop: "Дитина", anchor: "route-child", doctors: [
+    { name: "Баті Діана Сергіївна", role: "Лікар-стоматолог терапевт, дитячий стоматолог", photo: bati },
+    { name: "Прокопчук Серафим Олександрович", role: "Лікар-стоматолог терапевт, дитячий стоматолог", photo: prokopchuk },
+  ] },
+  { stop: "Брекети й елайнери", anchor: "route-ortho", doctors: [
+    { name: "Горзов Арсеній Петрович", role: "Лікар-стоматолог ортодонт", photo: horzov },
+  ] },
+  { stop: "Лікування і гігієна", anchor: "route-care", doctors: [
+    { name: "Купрієнко Юлія Олегівна", role: "Лікар-стоматолог терапевт", photo: kupriienko },
+    { name: "Цифра Людмила В'ячеславівна", role: "Лікар-стоматолог ендодонтист", photo: tsyfra },
+    { name: "Маляр Андрій Віталійович", role: "Лікар-стоматолог ендодонтист", photo: maliar },
+  ] },
+  { stop: "Імплантація і коронки", anchor: "route-implant", doctors: [
+    { name: "Бойчук Микола Михайлович", role: "Лікар-хірург, імплантолог", photo: boichuk },
+    { name: "Пецкарь Мирослав Тіберійович", role: "Лікар-стоматолог ортопед", photo: petskar },
+    { name: "Яремчук Софія Іванівна", role: "Лікар-стоматолог хірург, пародонтолог", photo: yaremchuk },
+  ] },
+];
+const sizes = "(min-width: 64rem) 220px, 45vw";
+---
+<section id="doctors" class="doctors" aria-labelledby="doctors-title">
+  <div class="container">
+    <header class="section-head section-head--split">
+      <h2 id="doctors-title">Хто вас лікуватиме</h2>
+      <p class="section-head__text">Лікарі за тим, з чим ви приходите: кожна зупинка маршруту має своїх спеціалістів.</p>
+    </header>
+
+    <div class="doc-groups">
+      {groups.map((g) => (
+        <div class="doc-group">
+          <h3 class="doc-group__title"><span class="doc-group__dot" aria-hidden="true"></span>{g.stop}</h3>
+          <ul class="doc-list" role="list">
+            {g.doctors.map((d) => (
+              <li class="doc">
+                <div class="doc__photo">
+                  <Picture src={d.photo} formats={["avif"]} fallbackFormat="webp" widths={[240, 360, 480]} sizes={sizes} alt={`${d.name}, ${d.role.toLowerCase()}`} loading="lazy" decoding="async" />
+                </div>
+                <p class="doc__name">{d.name}</p>
+                <p class="doc__role">{d.role}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+
+      <div class="doc-group doc-group--lead">
+        <h3 class="doc-group__title">Керує клінікою</h3>
+        <div class="lead-card">
+          <div class="doc__photo doc__photo--lead">
+            <Picture src={rusyn} formats={["avif"]} fallbackFormat="webp" widths={[240, 360, 480]} sizes={sizes} alt="Русин Ніколь Вікторівна, керівник клініки" loading="lazy" decoding="async" />
+          </div>
+          <div>
+            <p class="doc__name">Русин Ніколь Вікторівна</p>
+            <p class="doc__role">Керівник «Клініки сімейної стоматології»</p>
+            <FutureLink note={FUTURE_NOTE} class="future">Усі лікарі</FutureLink>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

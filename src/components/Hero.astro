@@ -1,0 +1,32 @@
+---
+import { clinic, stops } from "../data/clinic";
+---
+<section id="hero" class="hero field-brand" aria-labelledby="hero-title">
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <h1 id="hero-title" class="hero__title">Сімейна стоматологія в&nbsp;Ужгороді</h1>
+      <p class="hero__lead">Від першого візиту дитини до All-on-4: лікарі для кожного в родині й діагностика КТ на Минайській, 23А.</p>
+      <div class="hero__actions" data-rec="R-U01">
+        <a class="btn btn--call" href={clinic.tel}>Подзвонити</a>
+        <a class="hero__phone" href={clinic.tel}>{clinic.phone}</a>
+        <a class="hero__way" href="#contacts">Як дістатися</a>
+        <p class="hero__consult">Консультація лікаря — <span class="nowrap"><span class="num">600</span>&nbsp;грн</span></p>
+      </div>
+    </div>
+
+    <nav class="route" aria-label="Маршрут родини: напрями й ціни">
+      <ol class="route__list">
+        {stops.map((s, i) => (
+          <li class="route__item" style={`--i:${i}`}>
+            <a class="route__stop" href={`#${s.anchor}`} data-stop={s.id}>
+              <span class="route__dot" aria-hidden="true"></span>
+              <span class="route__name">{s.name}</span>
+              <span class="route__price">{s.heroPrice.label}</span>
+              <span class="route__value"><span class="num">{s.heroPrice.value}</span>&nbsp;<span class="route__unit">{s.heroPrice.unit}</span></span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  </div>
+</section>

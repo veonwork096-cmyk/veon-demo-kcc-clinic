@@ -1,0 +1,98 @@
+/* Hallmark · shape: route-line (one horizontal route in the hero becomes the spine of the page) · genre: editorial · theme: custom · job: book · idea: "Маршрут родини — одна лінія від першого візиту дитини до All-on-4, на кожній зупинці ціна, лікар і дзвінок" · vibe: "ясна, тепла, відкрита, впевнена сімейна клініка"
+ * paper: #FFFFFF · accent: #2750EC (поля) + #FFB37C (дзвінок) · display: Geologica · body: Onest · hero: синє поле, H1 і лінія маршруту з п'ятьма зупинками й цінами · nav: біла sticky-шапка, 6 якорів, номер, «Подзвонити» · footer: світлий компактний · imagery: client photos · signature: лінія маршруту з круглими зупинками
+ * axes: light/geometric-sans/chromatic-blue · posture: committed · surface: absolute · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H5 E4 S5 R4 V5 · weakest: E, the before/after works come from client collages of mixed framing; cropped the stacked ones into equal halves and kept one slider per stop instead of a gallery */
+/* Hallmark · waive 7b · tokens.css:9,15,20 #FFFFFF · approved concept palette (design/concept.md 8.3): white paper and white text on the brand blue are the client-approved roles, contrast 6.1:1 on #2750EC */
+/* Hallmark · answered F4 · four filled recipes are one primary per field: apricot call on blue fields, brand call on white, pressed state of toggles is a state, not a second primary */
+/* Hallmark · answered F5 · .icon-call is the concept header call control on phones (R-U01, 44px target), kept as the single round control echoing the route stops */
+/* Line 1 of this file is the Hallmark stamp (docs/process/hallmark.md), filled from design/concept.md 8.14. */
+/* Client design tokens: only from design/concept.md (veon-concept: colors, fonts). */
+:root {
+  /* colour roles, concept 8.3 */
+  --color-bg: #FFFFFF;
+  --color-surface: #EEF1FB;
+  --color-text: #121A3D;
+  --color-text-muted: #4A5170;
+  --color-brand: #2750EC;
+  --color-brand-deep: #1B2C8F;
+  --color-on-brand: #FFFFFF;
+  --color-on-brand-muted: #DCE3FF;
+  --color-accent: #FFB37C;
+  --color-on-accent: #121A3D;
+  --color-accent-ink: var(--color-on-accent);
+  --color-focus: #1B2C8F;
+  --color-focus-on-brand: #FFFFFF;
+  --color-line: color-mix(in srgb, #121A3D 16%, transparent);
+  --color-line-on-brand: color-mix(in srgb, #FFFFFF 38%, transparent);
+  --color-scrim: color-mix(in srgb, #121A3D 55%, transparent);
+
+  /* type, concept 8.4 */
+  --font-display: "Geologica", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Onest", "Segoe UI", system-ui, sans-serif;
+  --fs-display: clamp(2.75rem, 1.6rem + 4.8vw, 6rem);
+  --fs-h2: clamp(2rem, 1.4rem + 2.4vw, 3.5rem);
+  --fs-h3: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+  --fs-lead: clamp(1.125rem, 1.05rem + 0.3vw, 1.25rem);
+  --fs-body: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+  --fs-small: 0.875rem;
+
+  /* grid and rhythm, concept 8.5 */
+  --container: 1280px;
+  --gutter: clamp(20px, 5vw, 80px);
+  --col-gap: 24px;
+  --s-1: 8px;
+  --s-2: 16px;
+  --s-3: 24px;
+  --s-4: 32px;
+  --s-5: 48px;
+  --s-6: 72px;
+  --s-7: 112px;
+  --s-8: 160px;
+  --section-y: clamp(72px, 4rem + 5vw, 160px);
+  --radius: 10px;
+  --radius-lg: 16px;
+  --stop: 44px;
+  --header-h: 64px;
+
+  /* motion, concept 8.9 */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --dur: 600ms;
+  --dur-fast: 180ms;
+  --space: var(--gutter);
+}
+@media (min-width: 64rem) {
+  :root { --header-h: 72px; }
+}
+
+@font-face {
+  font-family: "Onest";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../assets/fonts/onest-cyrillic-wght-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Onest";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../assets/fonts/onest-latin-wght-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Geologica";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../assets/fonts/geologica-cyrillic-wght-normal.woff2") format("woff2");
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: "Geologica";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("../assets/fonts/geologica-latin-wght-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}

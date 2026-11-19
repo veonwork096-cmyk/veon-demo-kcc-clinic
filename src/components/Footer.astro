@@ -1,0 +1,36 @@
+---
+import Logo from "./Logo.astro";
+import Icon from "./Icon.astro";
+import FutureLink from "./FutureLink.astro";
+import { clinic, nav, FUTURE_NOTE } from "../data/clinic";
+const future = ["Усі ціни", "Усі роботи", "Блог", "Політика конфіденційності", "Публічна оферта"];
+---
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    <div class="site-footer__brand">
+      <a class="site-footer__logo" href="#top" aria-label="KCC Clinic, на початок сторінки"><Logo class="logo" /></a>
+      <p>Клініка сімейної стоматології в Ужгороді</p>
+    </div>
+    <nav class="site-footer__col" aria-label="Розділи сторінки в підвалі">
+      <ul role="list">
+        {nav.map((n) => <li><a class="footer-link" href={n.href}>{n.label}</a></li>)}
+      </ul>
+    </nav>
+    <div class="site-footer__col">
+      <ul role="list">
+        {future.map((f) => <li><FutureLink note={FUTURE_NOTE} class="future future--quiet">{f}</FutureLink></li>)}
+      </ul>
+    </div>
+    <div class="site-footer__col site-footer__contact">
+      <a class="footer-phone" href={clinic.tel}>{clinic.phone}</a>
+      <p>{clinic.address}</p>
+      <ul class="social" role="list">
+        <li><a class="social__link" href={clinic.instagram} target="_blank" rel="noopener"><Icon name="instagram" /><span>Instagram</span></a></li>
+        <li><a class="social__link" href={clinic.facebook} target="_blank" rel="noopener"><Icon name="facebook" /><span>Facebook</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container site-footer__base">
+    <p>© 2026 KCC Clinic</p>
+  </div>
+</footer>

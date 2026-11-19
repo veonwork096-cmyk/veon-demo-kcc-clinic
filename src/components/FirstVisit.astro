@@ -1,0 +1,27 @@
+---
+import { clinic } from "../data/clinic";
+---
+<section id="first-visit" class="first-visit field-brand" aria-labelledby="first-visit-title">
+  <div class="container">
+    <div class="first-visit__route" aria-hidden="true"><span class="first-visit__start"></span></div>
+    <h2 id="first-visit-title" class="first-visit__title">Перший візит: консультація 600 або 1000&nbsp;грн</h2>
+
+    <ul class="offers" role="list">
+      <li class="offer">
+        <p class="offer__price"><span class="nowrap"><span class="num">600</span>&nbsp;<span class="offer__unit">грн</span></span></p>
+        <p class="offer__label">Консультація лікаря-стоматолога</p>
+      </li>
+      <li class="offer">
+        <p class="offer__price"><span class="nowrap"><span class="num">1000</span>&nbsp;<span class="offer__unit">грн</span></span></p>
+        <p class="offer__label">Консультація з комплексним планом лікування</p>
+      </li>
+    </ul>
+
+    <p class="first-visit__diag">Діагностика в клініці: КТ щелеп, панорамні та прицільні знімки.</p>
+
+    <div class="first-visit__actions" data-rec="R-U01">
+      <a class="btn btn--call" href={clinic.tel}>Подзвонити</a>
+      <a class="first-visit__phone" href={clinic.tel}>{clinic.phone}</a>
+    </div>
+  </div>
+</section>

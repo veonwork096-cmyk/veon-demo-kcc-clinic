@@ -1,0 +1,55 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Directions from "../components/Directions.astro";
+import Cases from "../components/Cases.astro";
+import Doctors from "../components/Doctors.astro";
+import FirstVisit from "../components/FirstVisit.astro";
+import Faq from "../components/Faq.astro";
+import Contacts from "../components/Contacts.astro";
+import Footer from "../components/Footer.astro";
+import CallBar from "../components/CallBar.astro";
+import { clinic, faq } from "../data/clinic";
+
+const title = "Сімейна стоматологія в Ужгороді — KCC Clinic, Минайська 23А";
+const description = "Лікування дітей і дорослих, імплантація All-on-4, лікування під мікроскопом, відбілювання Beyond. Ціни на сайті, консультація — 600 грн. +38 (066) 919 99 96.";
+
+// JSON-LD without rating and opening hours (not confirmed: C-005, C-021); no site URL in the demo.
+const dentist = {
+  "@context": "https://schema.org",
+  "@type": "Dentist",
+  name: clinic.name,
+  telephone: "+380669199996",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "вул. Минайська, 23А",
+    addressLocality: "Ужгород",
+    addressCountry: "UA",
+  },
+  sameAs: [clinic.instagram, clinic.facebook],
+};
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+};
+---
+<Base lang="uk" title={title} description={description}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(dentist)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
+  </Fragment>
+  <Header slot="header" />
+  <Hero />
+  <Directions />
+  <Cases />
+  <Doctors />
+  <FirstVisit />
+  <Faq />
+  <Contacts />
+  <Fragment slot="footer">
+    <Footer />
+    <CallBar />
+  </Fragment>
+</Base>

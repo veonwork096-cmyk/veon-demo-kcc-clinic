@@ -1,0 +1,8 @@
+---
+import Icon from "./Icon.astro";
+import { clinic } from "../data/clinic";
+---
+<div class="callbar" data-callbar data-rec="R-U01">
+  <a class="callbar__btn callbar__btn--call" href={clinic.tel}><Icon name="phone" /><span>Подзвонити</span></a>
+  <a class="callbar__btn" href={clinic.mapsUrl} target="_blank" rel="noopener"><Icon name="pin" /><span>Маршрут</span></a>
+</div>
